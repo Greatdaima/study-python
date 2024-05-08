@@ -39,17 +39,13 @@ class TransformerModel(nn.Module):
         self.embedding = nn.Embedding(vocab_size, d_model)
 
     def forward(self, src):
-        # 计算位置编码
-        src = self.pos_encoder(src)
-
         # 通过嵌入层
         src = self.embedding(src)
-
+        # 计算位置编码
+        src = self.pos_encoder(src)
         # 通过Transformer编码器
         output = self.transformer_encoder(src)
-
         return output
-
 # 参数示例
 d_model = 512  # 模型维度
 nhead = 8     # 注意力头数
@@ -58,13 +54,10 @@ dim_feedforward = 2048  # 前馈网络的维度
 dropout = 0.1  # 丢弃率
 vocab_size = 10000  # 词汇表大小
 
-
 # 创建模型实例
 model = TransformerModel(d_model, nhead, num_layers, dim_feedforward, dropout, vocab_size)
-
 # 示例输入
 src = torch.randint(0, vocab_size, (10, 20))  # 10个长度为20的序列
-
 # 前向传播
 output = model(src)
 print(output.shape)  # 输出形状应为 (10, 20, 512)
