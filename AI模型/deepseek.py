@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 import math
+import torch.onnx
+import os
 
 class PositionalEncoding(nn.Module):
     def __init__(self, d_model, dropout=0.1, max_len=5000):
@@ -60,4 +62,18 @@ model = TransformerModel(d_model, nhead, num_layers, dim_feedforward, dropout, v
 src = torch.randint(0, vocab_size, (10, 20))  # 10个长度为20的序列
 # 前向传播
 output = model(src)
-print(output.shape)  # 输出形状应为 (10, 20, 512)
+
+# 获取当前脚本所在的文件夹路径
+path_onnx = os.path.join(os.path.dirname(os.path.abspath(__file__)),'model.onnx')
+
+# 导出模型
+torch.onnx.export(model,  # model
+                  src,  # model input (used to trace)
+                  path_onnx,  # exported ONNX file name
+                  export_params=True,  # store trained parameters
+                  opset_version=14,  # ONNX version
+                  do_constant_folding=True,  # Execute constant folding optimization
+                  input_names=['input'],  # input name
+                  output_names=['output'],  # output name
+                  dynamic_axes={'input': {0: 'batch_size'},  # batch variable
+                                'output': {0: 'batch_size'}})
