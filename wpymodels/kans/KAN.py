@@ -635,7 +635,7 @@ class KAN(nn.Module):
                         plt.gca().patch.set_edgecolor('white')
                     plt.gca().patch.set_linewidth(1.5)
                     # plt.axis('off')
-
+                    # self.acts,self.spline_postacts
                     plt.plot(self.acts[l][:, i][rank].cpu().detach().numpy(), self.spline_postacts[l][:, j, i][rank].cpu().detach().numpy(), color=color, lw=5)
                     if sample == True:
                         plt.scatter(self.acts[l][:, i][rank].cpu().detach().numpy(), self.spline_postacts[l][:, j, i][rank].cpu().detach().numpy(), color=color, s=400 * scale ** 2)
@@ -651,7 +651,10 @@ class KAN(nn.Module):
 
                     plt.savefig(f'{folder}/sp_{l}_{i}_{j}.png', bbox_inches="tight", dpi=400)
                     plt.close()
+
                     # plt.show()
+        print('self.acts :', self.acts[0].shape)
+        print('self.spline_postacts :', self.spline_postacts[0].shape)
 
         def score2alpha(score):
             return np.tanh(beta * score)
