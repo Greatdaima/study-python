@@ -569,7 +569,8 @@ class KAN(nn.Module):
             mask : bool
                 If True, plot with mask (need to run prune() first to obtain mask). If False (by default), plot all activation functions.
             mode : bool
-                "supervised" or "unsupervised". If "supervised", l1 is measured by absolution value (not subtracting mean); if "unsupervised", l1 is measured by standard deviation (subtracting mean).
+                "supervised" or "unsupervised". If "supervised", l1 is measured by absolution value (not subtracting mean); 
+                if "unsupervised", l1 is measured by standard deviation (subtracting mean).
             scale : float
                 control the size of the diagram
             in_vars: None or list of str
@@ -650,6 +651,7 @@ class KAN(nn.Module):
 
                     plt.savefig(f'{folder}/sp_{l}_{i}_{j}.png', bbox_inches="tight", dpi=400)
                     plt.close()
+                    # plt.show()
 
         def score2alpha(score):
             return np.tanh(beta * score)

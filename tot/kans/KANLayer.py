@@ -7,8 +7,6 @@ from .spline import *
 class KANLayer(nn.Module):
     """
     KANLayer class
-    
-
     Attributes:
     -----------
         in_dim: int
